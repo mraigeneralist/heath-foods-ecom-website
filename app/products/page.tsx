@@ -1,0 +1,143 @@
+import Link from "next/link";
+import { ProductCard } from "@/components/site/product-card";
+import { createClient } from "@/lib/supabase/server";
+import { cn } from "@/lib/utils";
+import type { Category, ProductWithCategory } from "@/lib/types";
+
+export const revalidate = 60;
+
+type Search = { cat?: string; sort?: string };
+
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Search>;
+}) {
+  const params = await searchParams;
+  const supabase = await createClient();
+
+  const [{ data: cats }, _] = await Promise.all([
+    supabase
+      .from("categories")
+      .select("*")
+      .order("sort_order", { ascending: true }),
+    Promise.resolve(null),
+  ]);
+  const categories = (cats ?? []) as Category[];
+
+  let query = supabase
+    .from("products")
+    .select("*, category:categories(id, slug, name)")
+    .eq("is_active", true);
+
+  if (params.cat) {
+    const found = categories.find((c) => c.slug === params.cat);
+    if (found) query = query.eq("category_id", found.id);
+  }
+
+  if (params.sort === "price-asc") {
+    query = query.order("price_paise", { ascending: true });
+  } else if (params.sort === "price-desc") {
+    query = query.order("price_paise", { ascending: false });
+  } else {
+    query = query.order("created_at", { ascending: false });
+  }
+
+  const { data: products } = await query;
+  const list = (products ?? []) as ProductWithCategory[];
+
+  return (
+    <div className="container-prose py-12 md:py-16">
+      <header className="mb-10">
+        <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+          The pantry
+        </p>
+        <h1 className="mt-2 font-display text-4xl font-bold md:text-5xl">
+          Everything we make.
+        </h1>
+      </header>
+
+      <div className="mb-8 flex flex-wrap items-center gap-2">
+        <FilterChip href="/products" active={!params.cat} label="All" />
+        {categories.map((c) => (
+          <FilterChip
+            key={c.id}
+            href={`/products?cat=${c.slug}`}
+            active={params.cat === c.slug}
+            label={c.name}
+          />
+        ))}
+        <div className="ml-auto flex items-center gap-1 text-sm">
+          <span className="text-muted-foreground">Sort:</span>
+          <SortLink params={params} value="" label="Newest" />
+          <SortLink params={params} value="price-asc" label="₹ Low" />
+          <SortLink params={params} value="price-desc" label="₹ High" />
+        </div>
+      </div>
+
+      {list.length === 0 ? (
+        <p className="rounded-xl border border-dashed border-border p-12 text-center text-muted-foreground">
+          Nothing in this aisle yet. Check back soon.
+        </p>
+      ) : (
+        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
+          {list.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FilterChip({
+  href,
+  active,
+  label,
+}: {
+  href: string;
+  active: boolean;
+  label: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "rounded-full border px-3.5 py-1.5 text-sm transition-colors",
+        active
+          ? "border-sage-deep bg-sage-deep text-cream"
+          : "border-border bg-card hover:bg-sand",
+      )}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function SortLink({
+  params,
+  value,
+  label,
+}: {
+  params: Search;
+  value: string;
+  label: string;
+}) {
+  const cat = params.cat ? `cat=${params.cat}` : "";
+  const sort = value ? `sort=${value}` : "";
+  const qs = [cat, sort].filter(Boolean).join("&");
+  const href = `/products${qs ? `?${qs}` : ""}`;
+  const active =
+    (value === "" && !params.sort) || params.sort === value;
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "rounded-full px-2.5 py-1",
+        active ? "bg-sand text-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      {label}
+    </Link>
+  );
+}

@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sattva — Healthy Food E-commerce
 
-## Getting Started
+A production-ready Next.js storefront for an Indian healthy-food D2C
+business. Snacks, beverages, superfoods. Cart, accounts, Razorpay
+checkout, and a built-in admin dashboard for managing products,
+orders, and analytics.
 
-First, run the development server:
+## Stack
+
+Next.js 15 · TypeScript · Tailwind v4 · shadcn/ui · Supabase (auth + DB +
+storage) · Razorpay · Vercel.
+
+## Quick start
 
 ```bash
+npm install
+cp .env.local.example .env.local   # then fill in your keys
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## First-time setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Read **[SETUP.md](./SETUP.md)** — it walks through Supabase, Razorpay,
+Vercel, and how to promote an account to admin. Takes about 15 minutes
+end-to-end.
 
-## Learn More
+## Architecture & conventions
 
-To learn more about Next.js, take a look at the following resources:
+Read **[CLAUDE.md](./CLAUDE.md)** — directory map, payment flow, admin
+model, and the "things NOT to do" list.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev` — start dev server
+- `npm run build` — production build
+- `npm run start` — run the production build
+- `npm run lint` — eslint
+- `node scripts/generate-placeholders.mjs` — regenerate the SVG product
+  tiles in `public/`

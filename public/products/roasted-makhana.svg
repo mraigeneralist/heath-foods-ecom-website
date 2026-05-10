@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 480" width="800" height="800" preserveAspectRatio="xMidYMid meet">
+  <rect width="440" height="480" fill="#F4E4D2"/>
+  <rect x="20" y="20" width="400" height="440" fill="none" stroke="#C97B5C" stroke-opacity="0.25" stroke-width="2" stroke-dasharray="6 6" rx="14"/>
+  <g opacity="0.9"><ellipse cx="220" cy="240" rx="40" ry="100" fill="#C97B5C"/><ellipse cx="220" cy="240" rx="40" ry="100" fill="#C97B5C" transform="rotate(60 220 240)"/><ellipse cx="220" cy="240" rx="40" ry="100" fill="#C97B5C" transform="rotate(120 220 240)"/></g>
+  <text x="220" y="430" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#2C2C2C" text-anchor="middle">Roasted Makhana</text>
+</svg>
