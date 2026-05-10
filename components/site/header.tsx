@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ShoppingBag, User2, Leaf } from "lucide-react";
+import { User2, Leaf } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/check";
 import { CartButton } from "@/components/site/cart-button";
 import { AccountMenu } from "@/components/site/account-menu";
 import { STORE_NAME } from "@/lib/constants";
@@ -13,21 +14,29 @@ const NAV = [
 ];
 
 export async function SiteHeader() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+  let user: { id: string; email?: string } | null = null;
   let role: "customer" | "admin" | null = null;
   let displayName: string | null = null;
-  if (user) {
-    const { data } = await supabase
-      .from("profiles")
-      .select("role, full_name")
-      .eq("id", user.id)
-      .maybeSingle();
-    role = (data?.role as "customer" | "admin" | undefined) ?? "customer";
-    displayName = data?.full_name ?? null;
+
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = await createClient();
+      const {
+        data: { user: authUser },
+      } = await supabase.auth.getUser();
+      user = authUser;
+      if (authUser) {
+        const { data } = await supabase
+          .from("profiles")
+          .select("role, full_name")
+          .eq("id", authUser.id)
+          .maybeSingle();
+        role = (data?.role as "customer" | "admin" | undefined) ?? "customer";
+        displayName = data?.full_name ?? null;
+      }
+    } catch {
+      // Misconfigured Supabase URL — render the header without auth state.
+    }
   }
 
   return (

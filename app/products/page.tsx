@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { ProductCard } from "@/components/site/product-card";
+import { DemoBanner } from "@/components/site/demo-banner";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/check";
+import { SEED_CATEGORIES, SEED_PRODUCTS } from "@/lib/seed-data";
 import { cn } from "@/lib/utils";
 import type { Category, ProductWithCategory } from "@/lib/types";
 
@@ -14,40 +17,58 @@ export default async function ProductsPage({
   searchParams: Promise<Search>;
 }) {
   const params = await searchParams;
-  const supabase = await createClient();
+  const configured = isSupabaseConfigured();
 
-  const [{ data: cats }, _] = await Promise.all([
-    supabase
-      .from("categories")
-      .select("*")
-      .order("sort_order", { ascending: true }),
-    Promise.resolve(null),
-  ]);
-  const categories = (cats ?? []) as Category[];
+  let categories: Category[];
+  let list: ProductWithCategory[];
 
-  let query = supabase
-    .from("products")
-    .select("*, category:categories(id, slug, name)")
-    .eq("is_active", true);
+  if (configured) {
+    const supabase = await createClient();
+    try {
+      const { data: cats } = await supabase
+        .from("categories")
+        .select("*")
+        .order("sort_order", { ascending: true });
+      categories = (cats ?? []) as Category[];
+      if (categories.length === 0) categories = SEED_CATEGORIES;
 
-  if (params.cat) {
-    const found = categories.find((c) => c.slug === params.cat);
-    if (found) query = query.eq("category_id", found.id);
-  }
+      let query = supabase
+        .from("products")
+        .select("*, category:categories(id, slug, name)")
+        .eq("is_active", true);
 
-  if (params.sort === "price-asc") {
-    query = query.order("price_paise", { ascending: true });
-  } else if (params.sort === "price-desc") {
-    query = query.order("price_paise", { ascending: false });
+      if (params.cat) {
+        const found = categories.find((c) => c.slug === params.cat);
+        if (found) query = query.eq("category_id", found.id);
+      }
+
+      if (params.sort === "price-asc") {
+        query = query.order("price_paise", { ascending: true });
+      } else if (params.sort === "price-desc") {
+        query = query.order("price_paise", { ascending: false });
+      } else {
+        query = query.order("created_at", { ascending: false });
+      }
+
+      const { data: products } = await query;
+      list = (products ?? []) as ProductWithCategory[];
+      if (list.length === 0) list = filterAndSort(SEED_PRODUCTS, params);
+    } catch {
+      categories = SEED_CATEGORIES;
+      list = filterAndSort(SEED_PRODUCTS, params);
+    }
   } else {
-    query = query.order("created_at", { ascending: false });
+    categories = SEED_CATEGORIES;
+    list = filterAndSort(SEED_PRODUCTS, params);
   }
-
-  const { data: products } = await query;
-  const list = (products ?? []) as ProductWithCategory[];
 
   return (
     <div className="container-prose py-12 md:py-16">
+      {!configured && (
+        <div className="-mx-4 sm:-mx-6 lg:-mx-8 mb-8">
+          <DemoBanner />
+        </div>
+      )}
       <header className="mb-10">
         <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
           The pantry
@@ -88,6 +109,22 @@ export default async function ProductsPage({
       )}
     </div>
   );
+}
+
+function filterAndSort(
+  all: ProductWithCategory[],
+  params: Search,
+): ProductWithCategory[] {
+  let list = all;
+  if (params.cat) {
+    list = list.filter((p) => p.category?.slug === params.cat);
+  }
+  if (params.sort === "price-asc") {
+    list = [...list].sort((a, b) => a.price_paise - b.price_paise);
+  } else if (params.sort === "price-desc") {
+    list = [...list].sort((a, b) => b.price_paise - a.price_paise);
+  }
+  return list;
 }
 
 function FilterChip({

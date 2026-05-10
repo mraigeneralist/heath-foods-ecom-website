@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Package, User2, MapPin } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/check";
 
 const NAV = [
   { href: "/account", label: "Profile", icon: User2 },
@@ -14,6 +15,7 @@ export default async function AccountLayout({
 }: {
   children: React.ReactNode;
 }) {
+  if (!isSupabaseConfigured()) redirect("/?setup=needed");
   const supabase = await createClient();
   const {
     data: { user },

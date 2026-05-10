@@ -4,32 +4,51 @@ import { ArrowRight, Leaf, ShieldCheck, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryCard } from "@/components/site/category-card";
 import { ProductCard } from "@/components/site/product-card";
+import { DemoBanner } from "@/components/site/demo-banner";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/check";
+import { SEED_CATEGORIES, SEED_PRODUCTS } from "@/lib/seed-data";
 import type { Category, ProductWithCategory } from "@/lib/types";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const supabase = await createClient();
+  const configured = isSupabaseConfigured();
+  let cats: Category[];
+  let featured: ProductWithCategory[];
 
-  const [{ data: categories }, { data: products }] = await Promise.all([
-    supabase
-      .from("categories")
-      .select("*")
-      .order("sort_order", { ascending: true }),
-    supabase
-      .from("products")
-      .select("*, category:categories(id, slug, name)")
-      .eq("is_active", true)
-      .order("created_at", { ascending: false })
-      .limit(8),
-  ]);
-
-  const cats = (categories ?? []) as Category[];
-  const featured = (products ?? []) as ProductWithCategory[];
+  if (configured) {
+    const supabase = await createClient();
+    try {
+      const [{ data: categories }, { data: products }] = await Promise.all([
+        supabase
+          .from("categories")
+          .select("*")
+          .order("sort_order", { ascending: true }),
+        supabase
+          .from("products")
+          .select("*, category:categories(id, slug, name)")
+          .eq("is_active", true)
+          .order("created_at", { ascending: false })
+          .limit(8),
+      ]);
+      cats = (categories ?? []) as Category[];
+      featured = (products ?? []) as ProductWithCategory[];
+      // If the schema hasn't been seeded yet, fall back so the demo still shows.
+      if (cats.length === 0) cats = SEED_CATEGORIES;
+      if (featured.length === 0) featured = SEED_PRODUCTS.slice(0, 8);
+    } catch {
+      cats = SEED_CATEGORIES;
+      featured = SEED_PRODUCTS.slice(0, 8);
+    }
+  } else {
+    cats = SEED_CATEGORIES;
+    featured = SEED_PRODUCTS.slice(0, 8);
+  }
 
   return (
     <>
+      {!configured && <DemoBanner />}
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="container-prose grid gap-10 py-16 md:grid-cols-12 md:py-24">

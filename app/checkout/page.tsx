@@ -1,11 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/check";
 import { CheckoutFlow } from "@/components/site/checkout-flow";
 import type { Address } from "@/lib/types";
 
 export const metadata = { title: "Checkout" };
 
 export default async function CheckoutPage() {
+  if (!isSupabaseConfigured()) redirect("/?setup=needed");
   const supabase = await createClient();
   const {
     data: { user },
