@@ -243,15 +243,19 @@ create policy "product-images admin delete"
   using (bucket_id = 'product-images' and public.is_admin());
 
 -- =============================================================
--- Seed data — 3 categories × 5 products
+-- Seed data: 3 categories x 5 products
 -- Re-runnable thanks to ON CONFLICT (slug).
 -- Image URLs point at the SVG placeholder tiles checked into /public.
 -- Once you upload real photos via the admin, image_url is overwritten.
+--
+-- All text literals use dollar-quoted strings ($t$...$t$) so no
+-- apostrophe, em-dash, or smart-quote in any clipboard or editor can
+-- break them.
 -- =============================================================
 insert into public.categories (slug, name, description, image_url, sort_order) values
-  ('snacks', 'Snacks', 'Wholesome munchies — roasted, baked, never fried.', '/categories/snacks.svg', 0),
-  ('beverages', 'Beverages', 'Cold-pressed juices, herbal infusions, plant milks.', '/categories/beverages.svg', 1),
-  ('superfoods', 'Superfoods', 'Nutrient-dense staples for everyday wellness.', '/categories/superfoods.svg', 2)
+  ($t$snacks$t$, $t$Snacks$t$, $t$Wholesome munchies - roasted, baked, never fried.$t$, $t$/categories/snacks.svg$t$, 0),
+  ($t$beverages$t$, $t$Beverages$t$, $t$Cold-pressed juices, herbal infusions, plant milks.$t$, $t$/categories/beverages.svg$t$, 1),
+  ($t$superfoods$t$, $t$Superfoods$t$, $t$Nutrient-dense staples for everyday wellness.$t$, $t$/categories/superfoods.svg$t$, 2)
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
@@ -260,21 +264,21 @@ on conflict (slug) do update set
 
 -- Snacks
 insert into public.products (category_id, slug, name, description, price_paise, weight_grams, stock, image_url) values
-  ((select id from public.categories where slug = 'snacks'), 'roasted-makhana', 'Roasted Makhana',
-    'Lightly salted fox-nuts roasted in a touch of cold-pressed coconut oil. Crisp, addictive, and just 90 calories a handful.',
-    24900, 100, 80, '/products/roasted-makhana.svg'),
-  ((select id from public.categories where slug = 'snacks'), 'baked-ragi-chips', 'Baked Ragi Chips',
-    'Stone-ground ragi flour, baked twice for that satisfying crunch. Iron-rich and gluten-conscious.',
-    17900, 80, 80, '/products/baked-ragi-chips.svg'),
-  ((select id from public.categories where slug = 'snacks'), 'almond-energy-bars', 'Almond Energy Bars (pack of 6)',
-    'California almonds, dates, and a whisper of jaggery. No refined sugar, no protein-bar aftertaste.',
-    39900, null, 60, '/products/almond-energy-bars.svg'),
-  ((select id from public.categories where slug = 'snacks'), 'quinoa-puff-mix', 'Quinoa Puff Mix',
-    'Air-puffed quinoa with curry leaves, peanuts and a streak of chilli. Office-drawer-approved.',
-    22900, 150, 70, '/products/quinoa-puff-mix.svg'),
-  ((select id from public.categories where slug = 'snacks'), 'multigrain-khakhra', 'Multigrain Khakhra',
-    'Hand-rolled, slow-roasted Gujarati khakhra with bajra, jowar and methi. As tea-time should be.',
-    14900, 200, 100, '/products/multigrain-khakhra.svg')
+  ((select id from public.categories where slug = $t$snacks$t$), $t$roasted-makhana$t$, $t$Roasted Makhana$t$,
+    $t$Lightly salted fox-nuts roasted in a touch of cold-pressed coconut oil. Crisp, addictive, and just 90 calories a handful.$t$,
+    24900, 100, 80, $t$/products/roasted-makhana.svg$t$),
+  ((select id from public.categories where slug = $t$snacks$t$), $t$baked-ragi-chips$t$, $t$Baked Ragi Chips$t$,
+    $t$Stone-ground ragi flour, baked twice for that satisfying crunch. Iron-rich and gluten-conscious.$t$,
+    17900, 80, 80, $t$/products/baked-ragi-chips.svg$t$),
+  ((select id from public.categories where slug = $t$snacks$t$), $t$almond-energy-bars$t$, $t$Almond Energy Bars (pack of 6)$t$,
+    $t$California almonds, dates, and a whisper of jaggery. No refined sugar, no protein-bar aftertaste.$t$,
+    39900, null, 60, $t$/products/almond-energy-bars.svg$t$),
+  ((select id from public.categories where slug = $t$snacks$t$), $t$quinoa-puff-mix$t$, $t$Quinoa Puff Mix$t$,
+    $t$Air-puffed quinoa with curry leaves, peanuts and a streak of chilli. Office-drawer-approved.$t$,
+    22900, 150, 70, $t$/products/quinoa-puff-mix.svg$t$),
+  ((select id from public.categories where slug = $t$snacks$t$), $t$multigrain-khakhra$t$, $t$Multigrain Khakhra$t$,
+    $t$Hand-rolled, slow-roasted Gujarati khakhra with bajra, jowar and methi. As tea-time should be.$t$,
+    14900, 200, 100, $t$/products/multigrain-khakhra.svg$t$)
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
@@ -285,21 +289,21 @@ on conflict (slug) do update set
 
 -- Beverages
 insert into public.products (category_id, slug, name, description, price_paise, weight_grams, stock, image_url) values
-  ((select id from public.categories where slug = 'beverages'), 'cold-pressed-amla-juice', 'Cold-Pressed Amla Juice',
-    'Single-origin amla pressed within hours of harvest. Tart, vitamin-C rich, no added sugar.',
-    44900, 500, 50, '/products/cold-pressed-amla-juice.svg'),
-  ((select id from public.categories where slug = 'beverages'), 'tulsi-ginger-green-tea', 'Tulsi-Ginger Green Tea (25 bags)',
-    'High-grown Nilgiri green tea, holy basil, and bright Kerala ginger. Calm in a cup.',
-    32900, null, 90, '/products/tulsi-ginger-green-tea.svg'),
-  ((select id from public.categories where slug = 'beverages'), 'coconut-water-sachets', 'Coconut Water (pack of 6)',
-    'Tender coconut water from the Konkan coast, lightly chilled and ready to drink.',
-    29900, null, 70, '/products/coconut-water-sachets.svg'),
-  ((select id from public.categories where slug = 'beverages'), 'almond-milk-unsweetened', 'Almond Milk — Unsweetened',
-    'Just two ingredients: almonds and water. No gums, no thickeners.',
-    27900, 1000, 60, '/products/almond-milk-unsweetened.svg'),
-  ((select id from public.categories where slug = 'beverages'), 'beetroot-carrot-shot', 'Beetroot-Carrot Wellness Shot (6×60 ml)',
-    'A daily-dose ritual: beetroot, carrot, ginger, lemon — and nothing else.',
-    49900, null, 50, '/products/beetroot-carrot-shot.svg')
+  ((select id from public.categories where slug = $t$beverages$t$), $t$cold-pressed-amla-juice$t$, $t$Cold-Pressed Amla Juice$t$,
+    $t$Single-origin amla pressed within hours of harvest. Tart, vitamin-C rich, no added sugar.$t$,
+    44900, 500, 50, $t$/products/cold-pressed-amla-juice.svg$t$),
+  ((select id from public.categories where slug = $t$beverages$t$), $t$tulsi-ginger-green-tea$t$, $t$Tulsi-Ginger Green Tea (25 bags)$t$,
+    $t$High-grown Nilgiri green tea, holy basil, and bright Kerala ginger. Calm in a cup.$t$,
+    32900, null, 90, $t$/products/tulsi-ginger-green-tea.svg$t$),
+  ((select id from public.categories where slug = $t$beverages$t$), $t$coconut-water-sachets$t$, $t$Coconut Water (pack of 6)$t$,
+    $t$Tender coconut water from the Konkan coast, lightly chilled and ready to drink.$t$,
+    29900, null, 70, $t$/products/coconut-water-sachets.svg$t$),
+  ((select id from public.categories where slug = $t$beverages$t$), $t$almond-milk-unsweetened$t$, $t$Almond Milk - Unsweetened$t$,
+    $t$Just two ingredients: almonds and water. No gums, no thickeners.$t$,
+    27900, 1000, 60, $t$/products/almond-milk-unsweetened.svg$t$),
+  ((select id from public.categories where slug = $t$beverages$t$), $t$beetroot-carrot-shot$t$, $t$Beetroot-Carrot Wellness Shot (6 x 60 ml)$t$,
+    $t$A daily-dose ritual: beetroot, carrot, ginger, lemon - and nothing else.$t$,
+    49900, null, 50, $t$/products/beetroot-carrot-shot.svg$t$)
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
@@ -310,21 +314,21 @@ on conflict (slug) do update set
 
 -- Superfoods
 insert into public.products (category_id, slug, name, description, price_paise, weight_grams, stock, image_url) values
-  ((select id from public.categories where slug = 'superfoods'), 'raw-forest-honey', 'Raw Forest Honey',
-    'Wild-harvested by tribal cooperatives in the Sundarbans. Unfiltered, unheated, untouched.',
-    59900, 500, 60, '/products/raw-forest-honey.svg'),
-  ((select id from public.categories where slug = 'superfoods'), 'organic-chia-seeds', 'Organic Chia Seeds',
-    'Black chia from certified organic farms. High in omega-3s. Spoon into your morning yogurt.',
-    34900, 250, 100, '/products/organic-chia-seeds.svg'),
-  ((select id from public.categories where slug = 'superfoods'), 'moringa-leaf-powder', 'Moringa Leaf Powder',
-    'Shade-dried moringa, cold-milled to retain colour and chlorophyll. A teaspoon goes a long way.',
-    44900, 200, 80, '/products/moringa-leaf-powder.svg'),
-  ((select id from public.categories where slug = 'superfoods'), 'a2-cow-ghee', 'A2 Cow Ghee',
-    'Bilona-method ghee from Gir cows raised on open pasture. Nutty, golden, ridiculous on dosa.',
-    89900, 500, 40, '/products/a2-cow-ghee.svg'),
-  ((select id from public.categories where slug = 'superfoods'), 'cold-pressed-flaxseed-oil', 'Cold-Pressed Flaxseed Oil',
-    'Pressed at low temperature in small batches to preserve omega-3s. Drizzle on salads.',
-    52900, 250, 50, '/products/cold-pressed-flaxseed-oil.svg')
+  ((select id from public.categories where slug = $t$superfoods$t$), $t$raw-forest-honey$t$, $t$Raw Forest Honey$t$,
+    $t$Wild-harvested by tribal cooperatives in the Sundarbans. Unfiltered, unheated, untouched.$t$,
+    59900, 500, 60, $t$/products/raw-forest-honey.svg$t$),
+  ((select id from public.categories where slug = $t$superfoods$t$), $t$organic-chia-seeds$t$, $t$Organic Chia Seeds$t$,
+    $t$Black chia from certified organic farms. High in omega-3s. Spoon into yogurt for a crunchy breakfast.$t$,
+    34900, 250, 100, $t$/products/organic-chia-seeds.svg$t$),
+  ((select id from public.categories where slug = $t$superfoods$t$), $t$moringa-leaf-powder$t$, $t$Moringa Leaf Powder$t$,
+    $t$Shade-dried moringa, cold-milled to retain colour and chlorophyll. A teaspoon goes a long way.$t$,
+    44900, 200, 80, $t$/products/moringa-leaf-powder.svg$t$),
+  ((select id from public.categories where slug = $t$superfoods$t$), $t$a2-cow-ghee$t$, $t$A2 Cow Ghee$t$,
+    $t$Bilona-method ghee from Gir cows raised on open pasture. Nutty, golden, ridiculous on dosa.$t$,
+    89900, 500, 40, $t$/products/a2-cow-ghee.svg$t$),
+  ((select id from public.categories where slug = $t$superfoods$t$), $t$cold-pressed-flaxseed-oil$t$, $t$Cold-Pressed Flaxseed Oil$t$,
+    $t$Pressed at low temperature in small batches to preserve omega-3s. Drizzle on salads.$t$,
+    52900, 250, 50, $t$/products/cold-pressed-flaxseed-oil.svg$t$)
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
