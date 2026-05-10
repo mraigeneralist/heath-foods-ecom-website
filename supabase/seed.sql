@@ -245,7 +245,7 @@ create policy "product-images admin delete"
 -- =============================================================
 -- Seed data: 3 categories x 5 products
 -- Re-runnable thanks to ON CONFLICT (slug).
--- Image URLs point at the SVG placeholder tiles checked into /public.
+-- Image URLs point at copyright-free Unsplash CDN photos.
 -- Once you upload real photos via the admin, image_url is overwritten.
 --
 -- All text literals use dollar-quoted strings ($t$...$t$) so no
@@ -253,9 +253,9 @@ create policy "product-images admin delete"
 -- break them.
 -- =============================================================
 insert into public.categories (slug, name, description, image_url, sort_order) values
-  ($t$snacks$t$, $t$Snacks$t$, $t$Wholesome munchies - roasted, baked, never fried.$t$, $t$/categories/snacks.svg$t$, 0),
-  ($t$beverages$t$, $t$Beverages$t$, $t$Cold-pressed juices, herbal infusions, plant milks.$t$, $t$/categories/beverages.svg$t$, 1),
-  ($t$superfoods$t$, $t$Superfoods$t$, $t$Nutrient-dense staples for everyday wellness.$t$, $t$/categories/superfoods.svg$t$, 2)
+  ($t$snacks$t$, $t$Snacks$t$, $t$Wholesome munchies - roasted, baked, never fried.$t$, $t$https://images.unsplash.com/photo-1521986329282-0436c1f1e212?w=1200&q=80&auto=format&fit=crop$t$, 0),
+  ($t$beverages$t$, $t$Beverages$t$, $t$Cold-pressed juices, herbal infusions, plant milks.$t$, $t$https://images.unsplash.com/photo-1504855232331-fe4d5d2febfd?w=1200&q=80&auto=format&fit=crop$t$, 1),
+  ($t$superfoods$t$, $t$Superfoods$t$, $t$Nutrient-dense staples for everyday wellness.$t$, $t$https://images.unsplash.com/photo-1542990253-a781e04c0082?w=1200&q=80&auto=format&fit=crop$t$, 2)
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
@@ -266,19 +266,19 @@ on conflict (slug) do update set
 insert into public.products (category_id, slug, name, description, price_paise, weight_grams, stock, image_url) values
   ((select id from public.categories where slug = $t$snacks$t$), $t$roasted-makhana$t$, $t$Roasted Makhana$t$,
     $t$Lightly salted fox-nuts roasted in a touch of cold-pressed coconut oil. Crisp, addictive, and just 90 calories a handful.$t$,
-    24900, 100, 80, $t$/products/roasted-makhana.svg$t$),
+    24900, 100, 80, $t$https://images.unsplash.com/photo-1710421576768-ff985fa63b60?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$snacks$t$), $t$baked-ragi-chips$t$, $t$Baked Ragi Chips$t$,
     $t$Stone-ground ragi flour, baked twice for that satisfying crunch. Iron-rich and gluten-conscious.$t$,
-    17900, 80, 80, $t$/products/baked-ragi-chips.svg$t$),
+    17900, 80, 80, $t$https://images.unsplash.com/photo-1613919113640-25732ec5e61f?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$snacks$t$), $t$almond-energy-bars$t$, $t$Almond Energy Bars (pack of 6)$t$,
     $t$California almonds, dates, and a whisper of jaggery. No refined sugar, no protein-bar aftertaste.$t$,
-    39900, null, 60, $t$/products/almond-energy-bars.svg$t$),
+    39900, null, 60, $t$https://images.unsplash.com/photo-1772985432516-2e2ed6e4d480?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$snacks$t$), $t$quinoa-puff-mix$t$, $t$Quinoa Puff Mix$t$,
     $t$Air-puffed quinoa with curry leaves, peanuts and a streak of chilli. Office-drawer-approved.$t$,
-    22900, 150, 70, $t$/products/quinoa-puff-mix.svg$t$),
+    22900, 150, 70, $t$https://images.unsplash.com/photo-1705925438840-86614d4f7155?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$snacks$t$), $t$multigrain-khakhra$t$, $t$Multigrain Khakhra$t$,
     $t$Hand-rolled, slow-roasted Gujarati khakhra with bajra, jowar and methi. As tea-time should be.$t$,
-    14900, 200, 100, $t$/products/multigrain-khakhra.svg$t$)
+    14900, 200, 100, $t$https://images.unsplash.com/photo-1610730475679-cc987bf8756a?w=1200&q=80&auto=format&fit=crop$t$)
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
@@ -291,19 +291,19 @@ on conflict (slug) do update set
 insert into public.products (category_id, slug, name, description, price_paise, weight_grams, stock, image_url) values
   ((select id from public.categories where slug = $t$beverages$t$), $t$cold-pressed-amla-juice$t$, $t$Cold-Pressed Amla Juice$t$,
     $t$Single-origin amla pressed within hours of harvest. Tart, vitamin-C rich, no added sugar.$t$,
-    44900, 500, 50, $t$/products/cold-pressed-amla-juice.svg$t$),
+    44900, 500, 50, $t$https://images.unsplash.com/photo-1676043967557-2b70d9facd71?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$beverages$t$), $t$tulsi-ginger-green-tea$t$, $t$Tulsi-Ginger Green Tea (25 bags)$t$,
     $t$High-grown Nilgiri green tea, holy basil, and bright Kerala ginger. Calm in a cup.$t$,
-    32900, null, 90, $t$/products/tulsi-ginger-green-tea.svg$t$),
+    32900, null, 90, $t$https://images.unsplash.com/photo-1555447014-7ead71574544?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$beverages$t$), $t$coconut-water-sachets$t$, $t$Coconut Water (pack of 6)$t$,
     $t$Tender coconut water from the Konkan coast, lightly chilled and ready to drink.$t$,
-    29900, null, 70, $t$/products/coconut-water-sachets.svg$t$),
+    29900, null, 70, $t$https://images.unsplash.com/photo-1588413336019-dd5d3beddf55?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$beverages$t$), $t$almond-milk-unsweetened$t$, $t$Almond Milk - Unsweetened$t$,
     $t$Just two ingredients: almonds and water. No gums, no thickeners.$t$,
-    27900, 1000, 60, $t$/products/almond-milk-unsweetened.svg$t$),
+    27900, 1000, 60, $t$https://images.unsplash.com/photo-1601436423474-51738541c1b1?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$beverages$t$), $t$beetroot-carrot-shot$t$, $t$Beetroot-Carrot Wellness Shot (6 x 60 ml)$t$,
     $t$A daily-dose ritual: beetroot, carrot, ginger, lemon - and nothing else.$t$,
-    49900, null, 50, $t$/products/beetroot-carrot-shot.svg$t$)
+    49900, null, 50, $t$https://images.unsplash.com/photo-1506802913710-40e2e66339c9?w=1200&q=80&auto=format&fit=crop$t$)
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
@@ -316,19 +316,19 @@ on conflict (slug) do update set
 insert into public.products (category_id, slug, name, description, price_paise, weight_grams, stock, image_url) values
   ((select id from public.categories where slug = $t$superfoods$t$), $t$raw-forest-honey$t$, $t$Raw Forest Honey$t$,
     $t$Wild-harvested by tribal cooperatives in the Sundarbans. Unfiltered, unheated, untouched.$t$,
-    59900, 500, 60, $t$/products/raw-forest-honey.svg$t$),
+    59900, 500, 60, $t$https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$superfoods$t$), $t$organic-chia-seeds$t$, $t$Organic Chia Seeds$t$,
     $t$Black chia from certified organic farms. High in omega-3s. Spoon into yogurt for a crunchy breakfast.$t$,
-    34900, 250, 100, $t$/products/organic-chia-seeds.svg$t$),
+    34900, 250, 100, $t$https://images.unsplash.com/photo-1604768802835-899055f0e245?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$superfoods$t$), $t$moringa-leaf-powder$t$, $t$Moringa Leaf Powder$t$,
     $t$Shade-dried moringa, cold-milled to retain colour and chlorophyll. A teaspoon goes a long way.$t$,
-    44900, 200, 80, $t$/products/moringa-leaf-powder.svg$t$),
+    44900, 200, 80, $t$https://images.unsplash.com/photo-1565117661210-fd54898de423?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$superfoods$t$), $t$a2-cow-ghee$t$, $t$A2 Cow Ghee$t$,
     $t$Bilona-method ghee from Gir cows raised on open pasture. Nutty, golden, ridiculous on dosa.$t$,
-    89900, 500, 40, $t$/products/a2-cow-ghee.svg$t$),
+    89900, 500, 40, $t$https://images.unsplash.com/photo-1573812461383-e5f8b759d12e?w=1200&q=80&auto=format&fit=crop$t$),
   ((select id from public.categories where slug = $t$superfoods$t$), $t$cold-pressed-flaxseed-oil$t$, $t$Cold-Pressed Flaxseed Oil$t$,
     $t$Pressed at low temperature in small batches to preserve omega-3s. Drizzle on salads.$t$,
-    52900, 250, 50, $t$/products/cold-pressed-flaxseed-oil.svg$t$)
+    52900, 250, 50, $t$https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1200&q=80&auto=format&fit=crop$t$)
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -27,7 +26,6 @@ const Schema = z.object({
 type Values = z.infer<typeof Schema>;
 
 export function SignUpForm({ next }: { next?: string }) {
-  const router = useRouter();
   const [pending, start] = useTransition();
   const [info, setInfo] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -75,8 +73,7 @@ export function SignUpForm({ next }: { next?: string }) {
       }
 
       toast.success("Account created");
-      router.refresh();
-      router.push(next || "/account");
+      window.location.assign(next || "/account");
     });
   }
 

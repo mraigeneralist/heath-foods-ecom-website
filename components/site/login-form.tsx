@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -26,7 +25,6 @@ const Schema = z.object({
 type Values = z.infer<typeof Schema>;
 
 export function LoginForm({ next }: { next?: string }) {
-  const router = useRouter();
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -45,8 +43,7 @@ export function LoginForm({ next }: { next?: string }) {
         return;
       }
       toast.success("Welcome back");
-      router.refresh();
-      router.push(next || "/account");
+      window.location.assign(next || "/account");
     });
   }
 

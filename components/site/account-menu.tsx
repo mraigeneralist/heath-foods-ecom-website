@@ -30,8 +30,7 @@ export function AccountMenu({ role, email, displayName }: Props) {
       const supabase = createClient();
       await supabase.auth.signOut();
       clearCart();
-      router.refresh();
-      router.push("/");
+      window.location.assign("/");
     });
   }
 
