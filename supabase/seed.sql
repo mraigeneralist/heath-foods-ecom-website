@@ -72,9 +72,14 @@ create table if not exists public.products (
   weight_grams int,
   stock int not null default 100 check (stock >= 0),
   image_url text,
+  gallery_image_urls text[] not null default '{}',
   is_active boolean not null default true,
   created_at timestamptz not null default now()
 );
+
+-- Idempotent: also add the gallery column to a previously-created table
+alter table public.products
+  add column if not exists gallery_image_urls text[] not null default '{}';
 
 -- ----- Addresses -----
 create table if not exists public.addresses (

@@ -16,6 +16,7 @@ const Patch = z.object({
   weight_grams: z.number().int().nonnegative().nullable().optional(),
   stock: z.number().int().nonnegative().optional(),
   image_url: z.string().nullable().optional(),
+  gallery_image_urls: z.array(z.string()).optional(),
   is_active: z.boolean().optional(),
 });
 

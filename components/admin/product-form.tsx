@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ImageUpload } from "@/components/admin/image-upload";
+import { MultiImageUpload } from "@/components/admin/multi-image-upload";
 import { rupeesToPaise, paiseToRupees } from "@/lib/format";
 import type { Category, Product } from "@/lib/types";
 
@@ -55,6 +56,7 @@ const Schema = z.object({
     .optional(),
   stock: numberFromInput().pipe(z.number().int().nonnegative()),
   image_url: z.string().nullable().optional(),
+  gallery_image_urls: z.array(z.string()).default([]),
   is_active: z.boolean().default(true),
 });
 
@@ -91,6 +93,7 @@ export function ProductForm({
       weight_grams: initial?.weight_grams ?? undefined,
       stock: initial?.stock ?? 100,
       image_url: initial?.image_url ?? null,
+      gallery_image_urls: initial?.gallery_image_urls ?? [],
       is_active: initial?.is_active ?? true,
     },
   });
@@ -107,6 +110,7 @@ export function ProductForm({
         weight_grams: values.weight_grams ?? null,
         stock: values.stock,
         image_url: values.image_url ?? null,
+        gallery_image_urls: values.gallery_image_urls ?? [],
         is_active: values.is_active,
       };
 
@@ -286,15 +290,33 @@ export function ProductForm({
 
         <aside className="space-y-5">
           <div className="rounded-2xl border border-border bg-card p-6">
-            <FormLabel>Image</FormLabel>
-            <div className="mt-2">
-              <ImageUpload
-                value={form.watch("image_url") ?? null}
-                onChange={(url) =>
-                  form.setValue("image_url", url, { shouldDirty: true })
-                }
-              />
-            </div>
+            <FormLabel>Cover image</FormLabel>
+            <p className="mt-1 mb-3 text-xs text-muted-foreground">
+              The first image customers see. Used everywhere except the
+              gallery on the product detail page.
+            </p>
+            <ImageUpload
+              value={form.watch("image_url") ?? null}
+              onChange={(url) =>
+                form.setValue("image_url", url, { shouldDirty: true })
+              }
+            />
+          </div>
+
+          <div className="rounded-2xl border border-border bg-card p-6">
+            <FormLabel>Gallery images</FormLabel>
+            <p className="mt-1 mb-3 text-xs text-muted-foreground">
+              Extra angles, packaging, lifestyle shots. Customers swipe
+              through these on the product page.
+            </p>
+            <MultiImageUpload
+              value={form.watch("gallery_image_urls") ?? []}
+              onChange={(urls) =>
+                form.setValue("gallery_image_urls", urls, {
+                  shouldDirty: true,
+                })
+              }
+            />
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-6">

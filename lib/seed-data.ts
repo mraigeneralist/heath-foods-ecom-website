@@ -63,6 +63,7 @@ const product = (
   weight_grams,
   stock: 100,
   image_url: `/products/${slug}.svg`,
+  gallery_image_urls: [],
   is_active: true,
   created_at: NOW,
   category: cat(category_id),

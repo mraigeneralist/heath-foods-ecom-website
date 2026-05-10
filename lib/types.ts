@@ -27,6 +27,7 @@ export type Product = {
   weight_grams: number | null;
   stock: number;
   image_url: string | null;
+  gallery_image_urls: string[];
   is_active: boolean;
   created_at: string;
 };

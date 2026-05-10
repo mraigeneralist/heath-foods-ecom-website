@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { Leaf, ShieldCheck, Truck, Undo2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/check";
@@ -11,6 +10,7 @@ import {
 import { formatINR } from "@/lib/format";
 import { ProductCard } from "@/components/site/product-card";
 import { AddToCartButton } from "@/components/site/add-to-cart-button";
+import { ProductGallery } from "@/components/site/product-gallery";
 import type { ProductWithCategory } from "@/lib/types";
 
 export const revalidate = 60;
@@ -96,7 +96,10 @@ export default async function ProductDetailPage({
       .slice(0, 4);
   }
 
-  const img = product.image_url || `/products/${product.slug}.svg`;
+  const cover = product.image_url || `/products/${product.slug}.svg`;
+  const gallery = [cover, ...(product.gallery_image_urls ?? [])].filter(
+    Boolean,
+  );
 
   return (
     <div className="container-prose py-10 md:py-16">
@@ -118,16 +121,7 @@ export default async function ProductDetailPage({
       </nav>
 
       <div className="mt-6 grid gap-10 md:grid-cols-2 md:gap-14">
-        <div className="overflow-hidden rounded-3xl bg-sand">
-          <Image
-            src={img}
-            alt={product.name}
-            width={1000}
-            height={1000}
-            className="h-auto w-full object-cover"
-            priority
-          />
-        </div>
+        <ProductGallery images={gallery} alt={product.name} />
 
         <div className="flex flex-col">
           {product.category && (

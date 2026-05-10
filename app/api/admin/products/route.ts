@@ -15,6 +15,7 @@ const Body = z.object({
   weight_grams: z.number().int().nonnegative().nullable().optional(),
   stock: z.number().int().nonnegative(),
   image_url: z.string().nullable().optional(),
+  gallery_image_urls: z.array(z.string()).default([]),
   is_active: z.boolean().default(true),
 });
 
