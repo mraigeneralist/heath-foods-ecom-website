@@ -55,6 +55,11 @@ into `.env.local` in a minute):
 3. Open `supabase/seed.sql` from this repo, copy the whole file, paste into
    the SQL editor, and click **Run**.
 
+> **If you hit `relation "..." does not exist`**: paste the SQL from the
+> raw GitHub view (`raw.githubusercontent.com/.../seed.sql`) instead of
+> through any markdown/code-rendered preview — some renderers silently
+> convert straight quotes to "smart" quotes which breaks string literals.
+
 That creates every table (`profiles`, `categories`, `products`, `addresses`,
 `orders`, `order_items`), enables Row-Level Security, defines an `is_admin()`
 helper, sets up a sign-up trigger, and seeds 3 categories × 5 products.

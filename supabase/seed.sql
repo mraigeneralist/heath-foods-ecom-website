@@ -298,7 +298,7 @@ insert into public.products (category_id, slug, name, description, price_paise, 
     'Just two ingredients: almonds and water. No gums, no thickeners.',
     27900, 1000, 60, '/products/almond-milk-unsweetened.svg'),
   ((select id from public.categories where slug = 'beverages'), 'beetroot-carrot-shot', 'Beetroot-Carrot Wellness Shot (6×60 ml)',
-    'A daily-dose ritual. Beetroot, carrot, ginger, lemon. That''s it.',
+    'A daily-dose ritual: beetroot, carrot, ginger, lemon — and nothing else.',
     49900, null, 50, '/products/beetroot-carrot-shot.svg')
 on conflict (slug) do update set
   name = excluded.name,
