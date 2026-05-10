@@ -13,7 +13,7 @@ export function ProductCard({ product }: Props) {
   const img = product.image_url || `/products/${product.slug}.svg`;
 
   return (
-    <article className="group flex flex-col">
+    <article className="group flex h-full flex-col">
       <Link
         href={`/products/${product.slug}`}
         className="relative block overflow-hidden rounded-2xl bg-sand/50"
@@ -33,7 +33,7 @@ export function ProductCard({ product }: Props) {
           </span>
         )}
       </Link>
-      <div className="mt-4 flex items-start justify-between gap-3">
+      <div className="mt-4 flex flex-1 items-start justify-between gap-3">
         <div className="min-w-0">
           {product.category && (
             <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
@@ -42,17 +42,15 @@ export function ProductCard({ product }: Props) {
           )}
           <Link
             href={`/products/${product.slug}`}
-            className="mt-0.5 block font-display text-lg font-semibold leading-snug hover:underline underline-offset-4"
+            className="mt-0.5 block font-display text-lg font-semibold leading-snug hover:underline underline-offset-4 line-clamp-2"
           >
             {product.name}
           </Link>
-          {product.weight_grams && (
-            <p className="text-xs text-muted-foreground">
-              {product.weight_grams} g
-            </p>
-          )}
+          <p className="text-xs text-muted-foreground">
+            {product.weight_grams ? `${product.weight_grams} g` : " "}
+          </p>
         </div>
-        <p className="font-medium tabular-nums">
+        <p className="shrink-0 font-medium tabular-nums">
           {formatINR(product.price_paise)}
         </p>
       </div>
