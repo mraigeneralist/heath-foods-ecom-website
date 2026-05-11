@@ -15,7 +15,7 @@ dashboard so the owner can manage everything without ever touching SQL.
 | Styling | Tailwind CSS v4 with custom earthy theme tokens in `app/globals.css` |
 | UI primitives | shadcn/ui (Radix-based) in `components/ui/*` |
 | Forms | react-hook-form + zod |
-| State | zustand for cart (persisted to localStorage as `sattva-cart-v1`) |
+| State | zustand for cart (persisted to localStorage as `sattva-cart-v2`) |
 | Auth + DB | Supabase (`@supabase/ssr`, cookie-based sessions) |
 | Payments | Razorpay (server-create-order → client-checkout → server-verify-signature) |
 | File uploads | Supabase Storage bucket `product-images` (public read, admin write) |

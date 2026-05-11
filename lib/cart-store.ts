@@ -66,7 +66,7 @@ export const useCart = create<CartState>()(
         get().items.reduce((sum, i) => sum + i.pricePaise * i.quantity, 0),
     }),
     {
-      name: "sattva-cart-v1",
+      name: "sattva-cart-v2",
     },
   ),
 );
