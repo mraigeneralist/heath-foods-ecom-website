@@ -83,18 +83,30 @@ export default async function HomePage() {
             </Button>
           </div>
 
-          <dl className="mt-14 grid w-full max-w-xl grid-cols-3 gap-6 text-left sm:text-center">
+          <dl className="mt-12 grid w-full max-w-xl grid-cols-3 gap-x-4 gap-y-2 text-center md:mt-14 md:gap-6">
             <div>
-              <dt className="font-display text-2xl font-semibold text-sage-deep">100%</dt>
-              <dd className="text-xs text-muted-foreground">No preservatives</dd>
+              <dt className="font-display text-lg font-semibold leading-tight text-sage-deep md:text-2xl">
+                100%
+              </dt>
+              <dd className="mt-1 text-[11px] leading-snug text-muted-foreground md:text-xs">
+                No preservatives
+              </dd>
             </div>
             <div>
-              <dt className="font-display text-2xl font-semibold text-sage-deep">FSSAI</dt>
-              <dd className="text-xs text-muted-foreground">Certified kitchens</dd>
+              <dt className="font-display text-lg font-semibold leading-tight text-sage-deep md:text-2xl">
+                FSSAI
+              </dt>
+              <dd className="mt-1 text-[11px] leading-snug text-muted-foreground md:text-xs">
+                Certified kitchens
+              </dd>
             </div>
             <div>
-              <dt className="font-display text-2xl font-semibold text-sage-deep">Pan-India</dt>
-              <dd className="text-xs text-muted-foreground">Free over ₹500</dd>
+              <dt className="font-display text-lg font-semibold leading-tight text-sage-deep md:text-2xl">
+                Pan-India
+              </dt>
+              <dd className="mt-1 text-[11px] leading-snug text-muted-foreground md:text-xs">
+                Free over ₹500
+              </dd>
             </div>
           </dl>
         </div>
