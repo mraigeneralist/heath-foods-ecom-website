@@ -24,7 +24,7 @@ export function CategoryCard({ category, productCount }: Props) {
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
         />
       </div>
-      <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-ink/55 via-ink/10 to-transparent p-6">
+      <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-ink/85 via-ink/45 to-ink/10 p-6">
         <div className="flex items-end justify-between gap-4">
           <div>
             <h3 className="font-display text-3xl font-bold text-cream drop-shadow">

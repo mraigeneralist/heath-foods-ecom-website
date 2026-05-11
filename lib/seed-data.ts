@@ -57,6 +57,7 @@ const product = (
   price_paise: number,
   weight_grams: number | null,
   unsplash_id: string,
+  gallery_unsplash_ids: string[] = [],
 ): ProductWithCategory => ({
   id,
   category_id,
@@ -67,7 +68,7 @@ const product = (
   weight_grams,
   stock: 100,
   image_url: UNSPLASH(unsplash_id),
-  gallery_image_urls: [],
+  gallery_image_urls: gallery_unsplash_ids.map(UNSPLASH),
   is_active: true,
   created_at: NOW,
   category: cat(category_id),
@@ -84,6 +85,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     24900,
     100,
     "photo-1710421576768-ff985fa63b60",
+    ["photo-1776765828683-eb5ec29711e2", "photo-1662716679940-14b4669aa1be"],
   ),
   product(
     "10000000-0000-0000-0000-000000000002",
@@ -94,6 +96,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     17900,
     80,
     "photo-1613919113640-25732ec5e61f",
+    ["photo-1617102738820-bee2545405fd", "photo-1647764430080-6000fbe7efee"],
   ),
   product(
     "10000000-0000-0000-0000-000000000003",
@@ -104,6 +107,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     39900,
     null,
     "photo-1772985432516-2e2ed6e4d480",
+    ["photo-1772985197848-f927e66ed318", "photo-1558022237-9acacfbea28d"],
   ),
   product(
     "10000000-0000-0000-0000-000000000004",
@@ -114,6 +118,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     22900,
     150,
     "photo-1705925438840-86614d4f7155",
+    ["photo-1642254964005-c2b1a6871cec", "photo-1741827866505-11eb7c6926e0"],
   ),
   product(
     "10000000-0000-0000-0000-000000000005",
@@ -123,7 +128,8 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     "Hand-rolled, slow-roasted Gujarati khakhra with bajra, jowar and methi. As tea-time should be.",
     14900,
     200,
-    "photo-1610730475679-cc987bf8756a",
+    "photo-1588988949118-c86ba9c9c225",
+    ["photo-1640625314547-aee9a7696589", "photo-1521791697570-e1f13d0b81d0"],
   ),
   // Beverages
   product(
@@ -135,6 +141,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     44900,
     500,
     "photo-1676043967557-2b70d9facd71",
+    ["photo-1736959578118-a641cc0a9dd9", "photo-1737053525761-815d4db0c05d"],
   ),
   product(
     "20000000-0000-0000-0000-000000000002",
@@ -145,6 +152,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     32900,
     null,
     "photo-1555447014-7ead71574544",
+    ["photo-1518881922778-bacb4debc3d7", "photo-1577968897966-3d4325b36b61"],
   ),
   product(
     "20000000-0000-0000-0000-000000000003",
@@ -155,6 +163,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     29900,
     null,
     "photo-1588413336019-dd5d3beddf55",
+    ["photo-1537191072641-5e19cc173c6a", "photo-1628692945318-f44a3c346afb"],
   ),
   product(
     "20000000-0000-0000-0000-000000000004",
@@ -165,6 +174,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     27900,
     1000,
     "photo-1601436423474-51738541c1b1",
+    ["photo-1626196340104-2d6769a08761", "photo-1680901106907-3374ffaa25c6"],
   ),
   product(
     "20000000-0000-0000-0000-000000000005",
@@ -175,6 +185,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     49900,
     null,
     "photo-1506802913710-40e2e66339c9",
+    ["photo-1551040096-5f4aec6ca12b", "photo-1500291161618-747dee2ab16c"],
   ),
   // Superfoods
   product(
@@ -186,6 +197,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     59900,
     500,
     "photo-1587049352851-8d4e89133924",
+    ["photo-1642067958024-1a2d9f836920", "photo-1654515722385-c684c5331c04"],
   ),
   product(
     "30000000-0000-0000-0000-000000000002",
@@ -196,6 +208,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     34900,
     250,
     "photo-1604768802835-899055f0e245",
+    ["photo-1642497393633-a19e9231fb92", "photo-1502825926876-e8819fbb2fd0"],
   ),
   product(
     "30000000-0000-0000-0000-000000000003",
@@ -206,6 +219,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     44900,
     200,
     "photo-1565117661210-fd54898de423",
+    ["photo-1563353037-705845a4f9cc", "photo-1650494701391-daceb922ce9d"],
   ),
   product(
     "30000000-0000-0000-0000-000000000004",
@@ -216,6 +230,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     89900,
     500,
     "photo-1573812461383-e5f8b759d12e",
+    ["photo-1707425197195-240b7ad69047", "photo-1707424124274-689499bbe5e9"],
   ),
   product(
     "30000000-0000-0000-0000-000000000005",
@@ -226,6 +241,7 @@ export const SEED_PRODUCTS: ProductWithCategory[] = [
     52900,
     250,
     "photo-1474979266404-7eaacbcd87c5",
+    ["photo-1552592074-ea7a91b851b3", "photo-1720468750623-39e9a09f5067"],
   ),
 ];
 
