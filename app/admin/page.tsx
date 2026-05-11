@@ -113,7 +113,7 @@ export default async function AdminDashboardPage() {
           <h2 className="font-display text-lg font-semibold">Recent orders</h2>
           <Link
             href="/admin/orders"
-            className="group inline-flex items-center gap-1.5 text-sm font-medium text-sage-deep transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-deep/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
+            className="group inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full text-sm font-medium text-sage-deep transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-deep/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             View all
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
