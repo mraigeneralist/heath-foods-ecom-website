@@ -1,14 +1,9 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { Package, User2, MapPin } from "lucide-react";
+import { User2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/check";
-
-const NAV = [
-  { href: "/account", label: "Profile", icon: User2 },
-  { href: "/account/orders", label: "Orders", icon: Package },
-  { href: "/account/addresses", label: "Addresses", icon: MapPin },
-];
+import { AccountNav } from "@/components/site/account-nav";
+import { SignOutButton } from "@/components/site/sign-out-button";
 
 export default async function AccountLayout({
   children,
@@ -22,28 +17,45 @@ export default async function AccountLayout({
   } = await supabase.auth.getUser();
   if (!user) redirect("/login?next=/account");
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, role")
+    .eq("id", user.id)
+    .maybeSingle<{ full_name: string | null; role: string | null }>();
+
+  const displayName = profile?.full_name ?? null;
+  const isAdmin = profile?.role === "admin";
+
+  const initials = (displayName || user.email || "")
+    .split(/[ @]/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((s) => s[0]?.toUpperCase())
+    .join("");
+
   return (
-    <div className="container-prose py-12">
-      <header className="mb-8">
-        <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          Your account
-        </p>
-        <h1 className="mt-2 font-display text-3xl font-bold md:text-4xl">
-          {user.email}
-        </h1>
+    <div className="container-prose py-10 md:py-14">
+      <header className="mb-10 flex items-center gap-4">
+        <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-sage-deep/15 text-base font-semibold text-sage-deep">
+          {initials || <User2 className="h-6 w-6" />}
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            Account
+          </p>
+          <h1 className="mt-1 font-display text-2xl font-bold leading-tight md:text-3xl">
+            {displayName || "Welcome"}
+          </h1>
+          <p className="text-sm text-muted-foreground truncate">{user.email}</p>
+        </div>
       </header>
+
       <div className="grid gap-8 md:grid-cols-[220px_1fr]">
-        <aside className="space-y-1">
-          {NAV.map(({ href, label, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-sand"
-            >
-              <Icon className="h-4 w-4 text-muted-foreground" />
-              {label}
-            </Link>
-          ))}
+        <aside className="space-y-3">
+          <AccountNav isAdmin={isAdmin} />
+          <div className="border-t border-border pt-3">
+            <SignOutButton />
+          </div>
         </aside>
         <div className="min-w-0">{children}</div>
       </div>

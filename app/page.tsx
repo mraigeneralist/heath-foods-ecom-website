@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, Leaf, ShieldCheck, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryCard } from "@/components/site/category-card";
@@ -51,80 +50,53 @@ export default async function HomePage() {
       {!configured && <DemoBanner />}
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="container-prose grid gap-10 py-16 md:grid-cols-12 md:py-24">
-          <div className="md:col-span-7 flex flex-col justify-center">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-sand px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-sage-deep">
-              <Leaf className="h-3.5 w-3.5" /> New season harvest
-            </span>
-            <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-              Honest food,
-              <br />
-              <span className="text-sage-deep italic">slowly made.</span>
-            </h1>
-            <p className="mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
-              Wholesome snacks, cold-pressed beverages, and pantry superfoods
-              sourced from small farms and family kitchens across India.
-              Nothing fake. Nothing fried.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <Link href="/products">
-                  Shop the pantry <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/categories/superfoods">Explore superfoods</Link>
-              </Button>
-            </div>
-
-            <dl className="mt-12 grid grid-cols-3 gap-6 max-w-md">
-              <div>
-                <dt className="text-2xl font-display font-semibold text-sage-deep">100%</dt>
-                <dd className="text-xs text-muted-foreground">No preservatives</dd>
-              </div>
-              <div>
-                <dt className="text-2xl font-display font-semibold text-sage-deep">FSSAI</dt>
-                <dd className="text-xs text-muted-foreground">Certified kitchens</dd>
-              </div>
-              <div>
-                <dt className="text-2xl font-display font-semibold text-sage-deep">Pan-India</dt>
-                <dd className="text-xs text-muted-foreground">Free over ₹500</dd>
-              </div>
-            </dl>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-20 left-1/2 hidden h-80 w-80 -translate-x-1/2 rounded-full bg-sage/15 blur-3xl md:block"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 left-1/4 hidden h-72 w-72 rounded-full bg-terracotta/15 blur-3xl md:block"
+        />
+        <div className="container-prose flex flex-col items-center py-20 text-center md:py-28">
+          <span className="inline-flex items-center gap-2 rounded-full bg-sand px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-sage-deep">
+            <Leaf className="h-3.5 w-3.5" /> New season harvest
+          </span>
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
+            Honest food,
+            <br />
+            <span className="text-sage-deep italic">slowly made.</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-base text-muted-foreground md:text-lg">
+            Wholesome snacks, cold-pressed beverages, and pantry superfoods
+            sourced from small farms and family kitchens across India.
+            Nothing fake. Nothing fried.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg">
+              <Link href="/products">
+                Shop the pantry <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/categories/superfoods">Explore superfoods</Link>
+            </Button>
           </div>
 
-          <div className="relative md:col-span-5 md:min-h-[480px]">
-            <div className="absolute -top-6 -right-6 hidden h-72 w-72 rounded-full bg-terracotta/15 blur-3xl md:block" />
-            <div className="grid grid-cols-2 gap-4 md:absolute md:inset-0">
-              <div className="aspect-[4/5] overflow-hidden rounded-3xl bg-sand md:translate-y-6">
-                <Image
-                  src="https://images.unsplash.com/photo-1542990253-a781e04c0082?w=1200&q=80&auto=format&fit=crop"
-                  alt="Superfoods"
-                  width={1200}
-                  height={1500}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="aspect-[4/5] overflow-hidden rounded-3xl bg-sand">
-                <Image
-                  src="https://images.unsplash.com/photo-1504855232331-fe4d5d2febfd?w=1200&q=80&auto=format&fit=crop"
-                  alt="Beverages"
-                  width={1200}
-                  height={1500}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="col-span-2 aspect-[16/7] overflow-hidden rounded-3xl bg-sand">
-                <Image
-                  src="https://images.unsplash.com/photo-1521986329282-0436c1f1e212?w=1600&q=80&auto=format&fit=crop"
-                  alt="Snacks"
-                  width={1600}
-                  height={700}
-                  className="h-full w-full object-cover"
-                />
-              </div>
+          <dl className="mt-14 grid w-full max-w-xl grid-cols-3 gap-6 text-left sm:text-center">
+            <div>
+              <dt className="font-display text-2xl font-semibold text-sage-deep">100%</dt>
+              <dd className="text-xs text-muted-foreground">No preservatives</dd>
             </div>
-          </div>
+            <div>
+              <dt className="font-display text-2xl font-semibold text-sage-deep">FSSAI</dt>
+              <dd className="text-xs text-muted-foreground">Certified kitchens</dd>
+            </div>
+            <div>
+              <dt className="font-display text-2xl font-semibold text-sage-deep">Pan-India</dt>
+              <dd className="text-xs text-muted-foreground">Free over ₹500</dd>
+            </div>
+          </dl>
         </div>
       </section>
 

@@ -64,47 +64,52 @@ export function ProfileForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid gap-5 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="full_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full name</FormLabel>
+                <FormControl>
+                  <Input autoComplete="name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <Input
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder="+91 ..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div>
           <label className="text-sm font-medium">Email</label>
           <Input value={email} disabled className="mt-1.5" />
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="mt-1.5 text-xs text-muted-foreground">
             Contact support to change your email.
           </p>
         </div>
-        <FormField
-          control={form.control}
-          name="full_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Full name</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input
-                  inputMode="tel"
-                  placeholder="+91 ..."
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={pending}>
-          {pending ? "Saving…" : "Save"}
-        </Button>
+        <div className="flex items-center justify-end border-t border-border pt-5">
+          <Button type="submit" disabled={pending} className="min-w-28">
+            {pending ? "Saving…" : "Save changes"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

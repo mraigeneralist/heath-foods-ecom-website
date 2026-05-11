@@ -16,18 +16,18 @@ export default async function AccountPage() {
     .maybeSingle<Profile>();
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <h2 className="font-display text-xl font-semibold">Profile</h2>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Update your name and phone number.
-      </p>
-      <div className="mt-6">
-        <ProfileForm
-          email={user.email ?? ""}
-          fullName={profile?.full_name ?? ""}
-          phone={profile?.phone ?? ""}
-        />
+    <div className="rounded-2xl border border-border bg-card p-6 md:p-8">
+      <div className="mb-6">
+        <h2 className="font-display text-xl font-semibold">Personal details</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Used on receipts, delivery cards, and order updates.
+        </p>
       </div>
+      <ProfileForm
+        email={user.email ?? ""}
+        fullName={profile?.full_name ?? ""}
+        phone={profile?.phone ?? ""}
+      />
     </div>
   );
 }

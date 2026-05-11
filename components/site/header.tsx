@@ -15,7 +15,6 @@ const NAV = [
 
 export async function SiteHeader() {
   let user: { id: string; email?: string } | null = null;
-  let role: "customer" | "admin" | null = null;
   let displayName: string | null = null;
 
   if (isSupabaseConfigured()) {
@@ -28,10 +27,9 @@ export async function SiteHeader() {
       if (authUser) {
         const { data } = await supabase
           .from("profiles")
-          .select("role, full_name")
+          .select("full_name")
           .eq("id", authUser.id)
           .maybeSingle();
-        role = (data?.role as "customer" | "admin" | undefined) ?? "customer";
         displayName = data?.full_name ?? null;
       }
     } catch {
@@ -68,7 +66,6 @@ export async function SiteHeader() {
           <CartButton />
           {user ? (
             <AccountMenu
-              role={role}
               email={user.email ?? ""}
               displayName={displayName}
             />
