@@ -17,6 +17,18 @@ import {
 import type { Address } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
+function mergeAddress(prev: Address[], next: Address): Address[] {
+  const idx = prev.findIndex((a) => a.id === next.id);
+  // If the newly-saved address is default, clear is_default on the rest.
+  const cleared = next.is_default
+    ? prev.map((a) => (a.id === next.id ? a : { ...a, is_default: false }))
+    : prev;
+  if (idx >= 0) {
+    return cleared.map((a) => (a.id === next.id ? next : a));
+  }
+  return [...cleared, next];
+}
+
 declare global {
   interface Window {
     Razorpay?: any;
@@ -209,11 +221,17 @@ export function CheckoutFlow({
                 <div className="mt-4">
                   <AddressManager
                     initial={[]}
-                    /* hack: since AddressManager handles its own list, we just react to local sync via a key change after add */
+                    onSaved={(addr) => {
+                      setAddresses((prev) => mergeAddress(prev, addr));
+                      setSelectedId(addr.id);
+                    }}
+                    onDeleted={(id) => {
+                      setAddresses((prev) =>
+                        prev.filter((a) => a.id !== id),
+                      );
+                      setSelectedId((curr) => (curr === id ? null : curr));
+                    }}
                   />
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    Refresh after saving to use a newly added address.
-                  </p>
                 </div>
               </details>
             </div>
@@ -263,6 +281,13 @@ export function CheckoutFlow({
           >
             {placing ? "Processing…" : "Pay with Razorpay"}
           </Button>
+          {!selectedId && hydrated && items.length > 0 && (
+            <p className="mt-2 text-center text-xs text-terracotta">
+              {addresses.length === 0
+                ? "Add a shipping address to continue."
+                : "Select a shipping address to continue."}
+            </p>
+          )}
           <p className="mt-2 text-center text-[11px] text-muted-foreground">
             Cards, UPI, net-banking and wallets accepted.
           </p>

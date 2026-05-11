@@ -43,7 +43,15 @@ const Schema = z.object({
 
 type Values = z.input<typeof Schema>;
 
-export function AddressManager({ initial }: { initial: Address[] }) {
+export function AddressManager({
+  initial,
+  onSaved: onSavedProp,
+  onDeleted: onDeletedProp,
+}: {
+  initial: Address[];
+  onSaved?: (a: Address) => void;
+  onDeleted?: (id: string) => void;
+}) {
   const [list, setList] = useState<Address[]>(initial);
   const [editing, setEditing] = useState<Address | null>(null);
   const [showForm, setShowForm] = useState(initial.length === 0);
@@ -64,25 +72,29 @@ export function AddressManager({ initial }: { initial: Address[] }) {
     });
     setEditing(null);
     setShowForm(false);
+    onSavedProp?.(addr);
   }
 
   return (
-    <>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {list.map((a) => (
-          <AddressCard
-            key={a.id}
-            address={a}
-            onEdit={() => {
-              setEditing(a);
-              setShowForm(true);
-            }}
-            onDelete={(id) =>
-              setList((prev) => prev.filter((x) => x.id !== id))
-            }
-          />
-        ))}
-      </div>
+    <div className="space-y-4">
+      {list.length > 0 && (
+        <div className="grid gap-3 sm:grid-cols-2">
+          {list.map((a) => (
+            <AddressCard
+              key={a.id}
+              address={a}
+              onEdit={() => {
+                setEditing(a);
+                setShowForm(true);
+              }}
+              onDelete={(id) => {
+                setList((prev) => prev.filter((x) => x.id !== id));
+                onDeletedProp?.(id);
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {showForm ? (
         <div className="rounded-2xl border border-border bg-card p-6">
@@ -100,7 +112,7 @@ export function AddressManager({ initial }: { initial: Address[] }) {
           <Plus className="h-4 w-4" /> Add address
         </Button>
       )}
-    </>
+    </div>
   );
 }
 
