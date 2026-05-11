@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IndianRupee, Package, ShoppingBag, Users } from "lucide-react";
+import { ArrowRight, IndianRupee, Package, ShoppingBag, Users } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { formatINR, formatDate, shortOrderId } from "@/lib/format";
 import { OrderStatusBadge } from "@/components/site/order-status-badge";
@@ -113,9 +113,10 @@ export default async function AdminDashboardPage() {
           <h2 className="font-display text-lg font-semibold">Recent orders</h2>
           <Link
             href="/admin/orders"
-            className="text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
+            className="group inline-flex items-center gap-1.5 text-sm font-medium text-sage-deep transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-deep/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
           >
             View all
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
         {(!recentOrders || recentOrders.length === 0) ? (

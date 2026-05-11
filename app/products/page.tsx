@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpDown } from "lucide-react";
 import { ProductCard } from "@/components/site/product-card";
 import { DemoBanner } from "@/components/site/demo-banner";
 import { createClient } from "@/lib/supabase/server";
@@ -78,21 +79,26 @@ export default async function ProductsPage({
         </h1>
       </header>
 
-      <div className="mb-8 flex flex-wrap items-center gap-2">
-        <FilterChip href="/products" active={!params.cat} label="All" />
-        {categories.map((c) => (
-          <FilterChip
-            key={c.id}
-            href={`/products?cat=${c.slug}`}
-            active={params.cat === c.slug}
-            label={c.name}
-          />
-        ))}
-        <div className="ml-auto flex items-center gap-1 text-sm">
-          <span className="text-muted-foreground">Sort:</span>
-          <SortLink params={params} value="" label="Newest" />
-          <SortLink params={params} value="price-asc" label="₹ Low" />
-          <SortLink params={params} value="price-desc" label="₹ High" />
+      <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="flex flex-wrap items-center gap-2">
+          <FilterChip href="/products" active={!params.cat} label="All" />
+          {categories.map((c) => (
+            <FilterChip
+              key={c.id}
+              href={`/products?cat=${c.slug}`}
+              active={params.cat === c.slug}
+              label={c.name}
+            />
+          ))}
+        </div>
+        <div className="flex items-center gap-2 sm:ml-auto">
+          <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">Sort</span>
+          <div className="inline-flex items-center rounded-full border border-border bg-card p-1 text-sm">
+            <SortLink params={params} value="" label="Newest" />
+            <SortLink params={params} value="price-asc" label="₹ Low" />
+            <SortLink params={params} value="price-desc" label="₹ High" />
+          </div>
         </div>
       </div>
 
@@ -169,9 +175,12 @@ function SortLink({
   return (
     <Link
       href={href}
+      aria-pressed={active}
       className={cn(
-        "rounded-full px-2.5 py-1",
-        active ? "bg-sand text-foreground" : "text-muted-foreground hover:text-foreground",
+        "rounded-full px-3 py-1 text-xs font-medium transition-colors",
+        active
+          ? "bg-sage-deep text-cream shadow-sm"
+          : "text-muted-foreground hover:text-foreground",
       )}
     >
       {label}

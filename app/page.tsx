@@ -125,9 +125,10 @@ export default async function HomePage() {
           </div>
           <Link
             href="/products"
-            className="hidden text-sm underline underline-offset-4 hover:text-sage-deep md:inline-block"
+            className="group hidden items-center gap-1.5 text-sm font-medium text-sage-deep transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-deep/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full md:inline-flex"
           >
-            See everything →
+            See everything
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
@@ -151,9 +152,10 @@ export default async function HomePage() {
             </div>
             <Link
               href="/products"
-              className="text-sm underline underline-offset-4 hover:text-sage-deep"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-sage-deep transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-deep/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
             >
-              View all →
+              View all
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
