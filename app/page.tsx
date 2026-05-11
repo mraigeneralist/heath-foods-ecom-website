@@ -98,28 +98,28 @@ export default async function HomePage() {
             <div className="grid grid-cols-2 gap-4 md:absolute md:inset-0">
               <div className="aspect-[4/5] overflow-hidden rounded-3xl bg-sand md:translate-y-6">
                 <Image
-                  src="/categories/superfoods.svg"
+                  src="https://images.unsplash.com/photo-1542990253-a781e04c0082?w=1200&q=80&auto=format&fit=crop"
                   alt="Superfoods"
                   width={1200}
-                  height={600}
+                  height={1500}
                   className="h-full w-full object-cover"
                 />
               </div>
               <div className="aspect-[4/5] overflow-hidden rounded-3xl bg-sand">
                 <Image
-                  src="/categories/beverages.svg"
+                  src="https://images.unsplash.com/photo-1504855232331-fe4d5d2febfd?w=1200&q=80&auto=format&fit=crop"
                   alt="Beverages"
                   width={1200}
-                  height={600}
+                  height={1500}
                   className="h-full w-full object-cover"
                 />
               </div>
               <div className="col-span-2 aspect-[16/7] overflow-hidden rounded-3xl bg-sand">
                 <Image
-                  src="/categories/snacks.svg"
+                  src="https://images.unsplash.com/photo-1521986329282-0436c1f1e212?w=1600&q=80&auto=format&fit=crop"
                   alt="Snacks"
-                  width={1200}
-                  height={600}
+                  width={1600}
+                  height={700}
                   className="h-full w-full object-cover"
                 />
               </div>
